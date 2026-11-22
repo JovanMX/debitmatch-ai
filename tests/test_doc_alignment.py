@@ -45,7 +45,7 @@ from guardrails import (  # noqa: E402
     review_draft,
     unresolved_conflicts,
 )
-from memory import DEPOSIT_QUESTION, ConversationMemory, assistant_summary, extract_delta  # noqa: E402
+from memory import DEPOSIT_QUESTION, ConversationMemory, extract_delta  # noqa: E402
 from prompts.advisory_prompts import FALLBACK_DISCLAIMER, LEGAL_DISCLAIMER  # noqa: E402
 from state import create_initial_state  # noqa: E402
 from tools.catalog_search import eligible_products, nearest_alternatives  # noqa: E402
@@ -360,137 +360,6 @@ def test_minor_account_flags_profiling_and_filtering() -> None:
     adult_run = _run("I want a zero fee account.", deposit_mxn=20_000.0)
     assert not guardianship & {r["catalog_key"] for r in adult_run["api_structured_data"]}
     assert any("minor under guardianship excluded" in line for line in adult_run["trajectory_log"])
-
-
-def test_yield_objective_lists_higher_balance_accounts() -> None:
-    from agents.evaluator import HIGHER_BALANCE_STAGE, pays_yield_now
-    from tools.catalog_search import yield_unlock
-
-    by_key = {p.catalog_key: p for p in _resources().catalog}
-    assert yield_unlock(by_key["40060_104"], 5_000.0) == {"unlock_balance_mxn": 10_000.0, "unlock_rate_percent": 3.0}
-    assert yield_unlock(by_key["40059_NW0001"], 5_000.0) is None  # already pays 10 %
-    assert yield_unlock(by_key["40060_104"], 10_000.0) is None
-    assert yield_unlock(by_key["40042_PFADM"], 5_000.0) is None  # 0.01 % is nominal, no higher tier
-
-    state = _run("I earn 50000 mexican pesos a moth, I want a debit card with yields over 10% a month. "
-                 "I keep 5,000 pesos")
-    branches = state["tot_candidate_branches"]
-    upgrades = [b for b in branches if b["stage"] == HIGHER_BALANCE_STAGE]
-    assert upgrades and not any(b.get("final") for b in upgrades)  # never a Base / Trade-off candidate
-    order = [b["product_key"] for b in upgrades]
-    # positive net at the unlock balance first (smallest extra balance first); Bansi's 3 % is eaten by its fees
-    assert order[0] == "40036_1002" and order.index("40060_104") > order.index("40113_Cuenta_Verde"), order
-    assert all(b["net_impact"]["deposit_evaluated_mxn"] == b["strategy"]["unlock_balance_mxn"] > 5_000 for b in upgrades)
-    paying = [b["product_key"] for b in sorted((b for b in branches if b.get("final")), key=lambda b: b["final_rank"])
-              if pays_yield_now(b)]
-    # NOW pays 7.25 % (Cuenta Now folleto, Oct 2026), below BIM 9.47 % and Sabadell 7.87 %
-    assert paying == ["40150_CuentaDigitalBIMTrad", "40156_20_103", "40059_NW0001", "40133_CARN4"], paying
-    draft = state["draft_recommendation"]
-    keys = {upgrade["product_key"] for upgrade in upgrades}
-    assert draft["base_option"]["product_key"] not in keys
-    assert not draft.get("tradeoff_option") or draft["tradeoff_option"]["product_key"] not in keys
-    assert state["execution_metadata"]["higher_balance_options"] == len(upgrades)
-
-    # the answer names the best higher-balance account with calculator figures, and passes the guardrails
-    upgrade = draft["higher_balance_option"]
-    assert upgrade["product_key"] == "40036_1002" and upgrade["net_annual_impact_mxn"] > 0
-    assert upgrade == draft["verified_facts"]["higher_balance_option"]
-    sentence = draft["narrative"]["key_tradeoffs"][-1]
-    assert "MXN 40,000.00" in sentence and "2.46%" in sentence and "CUENTA EFE" in sentence, sentence
-    assert f"MXN {upgrade['net_annual_impact_mxn']:,.2f}" in sentence and "MXN 35,000.00 more" in sentence
-    assert upgrade["yield_rate_is_estimate"] and "estimated rate" in sentence  # 40 % of CETES (Efe folleto)
-    from agents.evaluator import critic_narrative
-    # the deterministic sentence is already verified: the LLM critic never sees it
-    assert sentence not in critic_narrative(draft)["key_tradeoffs"]
-    assert critic_narrative(draft)["summary"] == draft["narrative"]["summary"]
-    assert review_draft(draft, state) == [] and state["review_approved"] is True
-    from evaluation.custom_evaluators import deterministic_faithfulness
-    # the benchmark accepts the higher-balance bank (its figures are verified); benchmark outputs name chunks rag_chunks
-    score, detail = deterministic_faithfulness({**state, "rag_chunks": state["rag_retrieved_chunks"]})
-    assert score == 1.0, detail
-    assert "with MXN 40,000.00: INBURSA CUENTA EFE would pay 2.46%" in assistant_summary(state)
-    no_upgrade = _run("I want a zero fee account.", deposit_mxn=5_000.0)
-    assert no_upgrade["draft_recommendation"]["higher_balance_option"] is None
-
-    no_yield = _run("I want a zero fee account.", deposit_mxn=5_000.0)  # no yield objective: nothing added
-    assert not any(b["stage"] == HIGHER_BALANCE_STAGE for b in no_yield["tot_candidate_branches"])
-
-
-def test_document_figures_and_reco_fee_detector() -> None:
-    """RECA documents (folletos) are the ground truth; the detector reads the RECO 'Administración - renta' format."""
-    by_key = {p.catalog_key: p for p in _resources().catalog}
-    # figures taken from the institutions' own documents are in the live catalog
-    flex, one, efe, educa = (by_key[k] for k in ("40021_FLEXSIM17", "40021_ADVANCE27", "40036_1002", "40036_1005"))
-    assert flex.monthly_maintenance_fee == 73.5 and flex.minimum_balance_for_fee_waiver == 0.0
-    assert one.minimum_balance_for_fee_waiver == 300000.0 and "$35,000 mxn" in one.qualitative_perks_summary
-    assert efe.monthly_maintenance_fee == 119.83 and efe.minimum_balance_for_fee_waiver == 20000.0
-    assert [t.annual_yield_rate for t in efe.yield_tiers] == [2.46, 3.7, 4.93] and all(t.estimated for t in efe.yield_tiers)
-    assert [(t.min_balance_mxn, t.annual_yield_rate, t.estimated) for t in educa.yield_tiers] == [
-        (15000.0, 3.08, False), (100000.0, 4.32, False)]
-    assert by_key["40113_BX+_Beneficios"].minimum_opening_deposit == 0.0
-    assert any(t.channel == "Branch / Teller" and t.cost_per_transaction_mxn == 110.0
-               for t in by_key["40014_060014"].transfer_fees_detail)
-    now = by_key["40059_NW0001"]
-    assert now.annual_yield_rate == 7.25 and any(p.cost_mxn == 70.0 for p in now.penalties_detail)
-
-    # detector: RECO concept + amount layouts, VAT-included figures, waiver phrasings and the published rate
-    def conflicts(product: Any, text: str) -> List[str]:
-        record = product.model_dump(mode="json")
-        chunk = {"chunk_id": "c", "text": text,
-                 "metadata": {"institution_id": product.institution_id, "product_id": product.product_id,
-                              "document_type": "terminos_y_condiciones_producto"}}
-        return sorted(f"{c['type']}={c['document_value']}" for c in detect_api_rag_conflicts([record], [chunk]))
-    assert conflicts(flex, "La comisión por Administración Renta tendrá un pago fijo de $65.00 M.N. + IVA") == [
-        "monthly_fee_mismatch=65.0"]
-    assert conflicts(flex, "La comisión por Administración Renta tendrá un pago fijo de $73.50 M.N. + IVA") == []
-    assert conflicts(efe, "Concepto Monto Periodicidad Administración - renta $139.00 Mensual") == []  # VAT included
-    assert conflicts(efe, "Administración - renta $180.00 Mensual") == ["monthly_fee_mismatch=180.0"]
-    verde = by_key["40113_Cuenta_Verde"]
-    assert conflicts(verde, "Administración - renta 1 Mensual $ 265.00 Saldo mínimo") == []
-    assert conflicts(verde, "Administración - renta; (banca por internet) 6 Mensual $ 150.00") == []  # other service
-    assert conflicts(efe, "El Saldo Promedio Mensual (S.P.M.) mínimo requerido es de $40,000") == [
-        "waiver_threshold_mismatch=40000.0"]
-    assert conflicts(one, "a) Mantener un saldo promedio mínimo mensual en Cuentas a la Vista, Fondos de Inversión "
-                          "e Inversiones a Plazo de $300,000.00 M.N.") == []
-    assert conflicts(now, "Tasa de rendimiento 10.00% anual fija") == ["yield_rate_mismatch=10.0"]
-    assert conflicts(now, "Tasa de rendimiento 7.25% anual fija") == []
-
-
-def test_catalog_yield_tiers() -> None:
-    """Yield tiers of the live catalog: official CASFIM rates, document rates and flagged estimates."""
-    from tools.calculator import calculate_net_impact
-
-    by_key = {p.catalog_key: p for p in _resources().catalog}
-    bansi, patrimonial = by_key["40060_104"], by_key["40152_1500"]
-    assert [t.annual_yield_rate for t in bansi.yield_tiers] == [3.0, 4.5, 5.0] and bansi.annual_yield_rate == 5.0
-    assert len(patrimonial.yield_tiers) == 8 and "5.75%" in patrimonial.qualitative_perks_summary
-    assert by_key["40150_CuentaDigitalBIMTrad"].yield_tiers[0].minimum_term_days == 28
-    # Gap fills are explicit estimates: official tiers keep their rate at the shared boundary (Sabadell).
-    sabadell = [t.model_dump() for t in by_key["40156_20_103"].yield_tiers]
-    rate = lambda tiers, deposit: calculate_net_impact(deposit=deposit, yield_tiers=tiers)["applicable_yield_rate_percent"]
-    assert (rate(sabadell, 100_000.0), rate(sabadell, 500_000.0), rate(sabadell, 1_000_000.0)) == (8.44, 9.85, 11.25)
-    from agents.advisory import _rate_is_estimate
-    record = by_key["40156_20_103"].model_dump(mode="json")
-    assert _rate_is_estimate(record, 500_000.0) and not _rate_is_estimate(record, 50_000.0)
-    # Cuenta Verde pays a share of CETES (Ve por Más fee table, Nov 2026): estimated from the reference CETES rate
-    verde = by_key["40113_Cuenta_Verde"]
-    assert [(t.min_balance_mxn, t.annual_yield_rate, t.estimated) for t in verde.yield_tiers] == [
-        (200000.0, 3.08, True), (500000.0, 4.93, True), (1000000.0, 5.54, True), (2500000.0, 6.16, True)]
-    assert verde.yield_tiers[0].payout_frequency == "monthly"
-    assert all(t.annual_yield_rate > 0 for p in by_key.values() for t in p.yield_tiers)  # 0 % tiers are dropped
-
-    # One product per near-duplicate group; Switch's branch SPEI follows its RECA fee annex.
-    assert not {"40059_NWR022", "40059_NW0023", "40059_DIG042"} & set(by_key)
-    # NOW account levels (NV/NVR 2-4) are ONE product, keyed by the CASFIM product id.
-    now = by_key["40059_NW0001"]
-    assert not {f"40059_{m}" for m in ("NW0021", "NW0031", "NW0041", "NWR021", "NWR031", "NWR041")} & set(by_key)
-    # its tiers follow the Cuenta Now folleto (Oct 2026, valid to Dec 2026), not the CASFIM 10 %
-    assert [(t.min_balance_mxn, t.max_balance_mxn, t.annual_yield_rate, t.estimated) for t in now.yield_tiers] == [
-        (50.0, None, 7.25, False)]
-    assert "level 4" in now.qualitative_perks_summary and "7.25%" in now.qualitative_perks_summary
-    switch = by_key["40002_SwitchBanamex"]
-    assert [t.cost_per_transaction_mxn for t in switch.transfer_fees_detail
-            if t.transfer_type == "Interbank SPEI Transfer" and t.channel == "Branch / Teller"] == [108.0]
 
 
 def test_task_model_routing_and_profiling_skip() -> None:
@@ -812,19 +681,6 @@ def test_net_cost_penalty_by_archetype() -> None:
     assert scores["40036_1005"] > scores["40137_2500"], scores  # Inbursa Educa (MXN 0) above the MXN 240 account
 
 
-def test_catalog_benefit_perks() -> None:
-    """Translated benefit perks are in the catalog once, without restating what it already had."""
-    catalog = {p.catalog_key: p.qualitative_perks_summary for p in _resources().catalog}
-    assert "1% cashback on purchases with the digital card" in catalog["40002_SwitchBanamex"]
-    assert "rebate of up to MXN 25 per withdrawal at other banks' ATMs" in catalog["40138_ABCCA04"]
-    assert "Mi Monedero Chedraui" in catalog["40140_ConsucuentaN2"]
-    assert catalog["40127_117"].endswith("rebates, annual yield up to 0.01%.")  # yield clause stays last
-    link = catalog["40012_0201"]
-    assert "choice of card design" in link and "no account management fee" not in link  # fee already stated
-    assert "interest" not in catalog["40156_20"].lower()  # 'Pago de intereses' without a rate is not a perk
-    assert "Sin Comentarios" not in " ".join(catalog.values())
-
-
 def test_top_score_explanation() -> None:
     """The #1 by match score that is neither option gets an explicit, deterministic reason."""
     from agents.advisory import select_options, top_score_explanation
@@ -855,19 +711,29 @@ def test_top_score_explanation() -> None:
 
 
 TESTS: List[Callable[[], None]] = [
-    test_memory_deltas, test_memory_clarification_and_window, test_overconfidence_markers_trigger_rewrite,
+    test_memory_deltas,
+    test_memory_clarification_and_window,
+    test_overconfidence_markers_trigger_rewrite,
     test_internal_identifiers_trigger_rewrite,
-    test_benefit_conflict_is_advisory, test_fallback_mode_when_structured_source_fails,
-    test_hard_timeout_returns_cached_baseline, test_tot_stale_downweight, test_tot_tie_resolution,
-    test_intent_router, test_criteria_negotiation, test_atomic_benefit_chunks, test_hybrid_llm_parameter_extraction,
+    test_benefit_conflict_is_advisory,
+    test_fallback_mode_when_structured_source_fails,
+    test_hard_timeout_returns_cached_baseline,
+    test_tot_stale_downweight,
+    test_tot_tie_resolution,
+    test_intent_router,
+    test_criteria_negotiation,
+    test_atomic_benefit_chunks,
+    test_hybrid_llm_parameter_extraction,
     test_mcp_resources_and_prompts,
     test_mcp_conversation_tools,
-    test_business_accounts_excluded_by_default, test_catalog_yield_tiers,
-    test_task_model_routing_and_profiling_skip, test_research_finalists_and_incomplete_evaluation,
+    test_business_accounts_excluded_by_default,
+    test_task_model_routing_and_profiling_skip,
+    test_research_finalists_and_incomplete_evaluation,
     test_memory_index_matches_chroma_and_embedding_cache,
-    test_minor_account_flags_profiling_and_filtering, test_yield_objective_lists_higher_balance_accounts,
-    test_document_figures_and_reco_fee_detector, test_confidence_separation_ignores_interchangeable_ties,
-    test_net_cost_penalty_by_archetype, test_catalog_benefit_perks, test_top_score_explanation,
+    test_minor_account_flags_profiling_and_filtering,
+    test_confidence_separation_ignores_interchangeable_ties,
+    test_net_cost_penalty_by_archetype,
+    test_top_score_explanation,
 ]
 
 

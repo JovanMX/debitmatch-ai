@@ -94,7 +94,7 @@ debitmatch_ai/
 │   └── rag_docs/             per-product policy texts
 ├── evaluation/               benchmark dataset, KPI evaluators, LangSmith runner, sample results
 ├── scripts/run_demo.py       one query from the terminal
-├── tests/                    unit, integration, UI and benchmark tests
+├── tests/                    unit, integration and UI tests
 └── docs/ARCHITECTURE.md      code walkthrough and design-to-code map
 ```
 
@@ -115,13 +115,15 @@ documents. The table shows where each one lives in the code.
 ## Tests
 
 ```powershell
-python tests\test_infra.py           # catalog contract, calculator, RAG, ingestion (12)
+python tests\test_infra.py           # catalog contract, calculator, RAG and PDF scopes (11)
 python tests\test_agent_graph.py     # end-to-end graph scenarios (5)
-python tests\test_doc_alignment.py   # requirements from the design documents (26)
+python tests\test_doc_alignment.py   # requirements from the design documents (23)
 python tests\test_evaluators.py      # evaluators catch injected faults (8)
-python tests\test_ui_components.py   # Streamlit AppTest, deterministic mode (27)
-python tests\test_llm_connection.py  # smoke test of the configured OpenAI models
+python tests\test_ui_components.py   # HITL, Reviewer Console, PII, memory and perk guardrails (9)
+python scripts\check_llm_connection.py  # smoke test of the configured OpenAI models
 ```
+
+56 deterministic tests in total.
 
 The functional suites skip the chat models, which keeps them deterministic.
 They still need the `data/chroma_db` index and the OpenAI key, which is used
@@ -130,8 +132,8 @@ for query embeddings.
 ## Evaluation
 
 ```powershell
-python tests\test_e2e_benchmark.py --dataset_size 15 --mode local
-python tests\test_e2e_benchmark.py --mode langsmith       # needs LANGCHAIN_API_KEY
+python evaluation\run_benchmark.py --dataset_size 15 --mode local
+python evaluation\run_benchmark.py --mode langsmith       # needs LANGCHAIN_API_KEY
 ```
 
 Latest run (15 cases, `evaluation/sample_results/`):

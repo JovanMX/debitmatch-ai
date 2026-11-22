@@ -1,10 +1,10 @@
-"""End-to-end benchmark CLI for DebitMatch AI (Checkpoint 6 KPIs).
+﻿"""End-to-end benchmark CLI for DebitMatch AI (Checkpoint 6 KPIs).
 
 Examples::
 
-    .venv\\Scripts\\python.exe tests\\test_e2e_benchmark.py --dataset_size 15
-    .venv\\Scripts\\python.exe tests\\test_e2e_benchmark.py --dataset_size 15 --mode local --offline
-    .venv\\Scripts\\python.exe tests\\test_e2e_benchmark.py --mode langsmith --concurrency 2 -v
+    .venv\\Scripts\\python.exe evaluation\\run_benchmark.py --dataset_size 15
+    .venv\\Scripts\\python.exe evaluation\\run_benchmark.py --dataset_size 15 --mode local --offline
+    .venv\\Scripts\\python.exe evaluation\\run_benchmark.py --mode langsmith --concurrency 2 -v
 
 Exit code: 0 = BENCHMARK PASSED, 1 = BENCHMARK FAILED, 2 = configuration error.
 """
@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 from typing import Any, Mapping, Optional, Sequence
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]  # tests/ sits one level below the project root
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # evaluation/ sits one level below the project root
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -28,8 +28,8 @@ for stream in (sys.stdout, sys.stderr):
 from evaluation.dataset_generator import BENCHMARK_CASES, DATASET_NAME  # noqa: E402
 from evaluation.langsmith_runner import DEFAULT_EXPERIMENT_PREFIX, REPORT_DIR, run_benchmark  # noqa: E402
 
-PASS_BANNER = "🟢 BENCHMARK PASSED"
-FAIL_BANNER = "🔴 BENCHMARK FAILED"
+PASS_BANNER = "ðŸŸ¢ BENCHMARK PASSED"
+FAIL_BANNER = "ðŸ”´ BENCHMARK FAILED"
 
 
 def _fmt(key: str, value: Any) -> str:
@@ -48,13 +48,13 @@ def render_summary(report: Mapping[str, Any]) -> str:
     lines = []
     meta = report["metadata"]
     lines.append("")
-    lines.append(f"DebitMatch AI - E2E Benchmark · dataset '{report['dataset']}' ({meta['dataset_size']} cases) · "
-                 f"mode={report['mode']} · llm={meta.get('llm_model') or 'deterministic'} · "
+    lines.append(f"DebitMatch AI - E2E Benchmark Â· dataset '{report['dataset']}' ({meta['dataset_size']} cases) Â· "
+                 f"mode={report['mode']} Â· llm={meta.get('llm_model') or 'deterministic'} Â· "
                  f"judge={meta.get('judge_model') or 'deterministic'}")
     header = f"{'Metric / KPI':<40} {'Result':>10} {'Target':>10}   Status"
     lines += ["=" * len(header) + "=====", header, "-" * len(header) + "-----"]
     for key, kpi in report["kpis"].items():
-        status = "✅ PASS" if kpi["passed"] else "❌ FAIL"
+        status = "âœ… PASS" if kpi["passed"] else "âŒ FAIL"
         lines.append(f"{kpi['label']:<40} {_fmt(key, kpi['value']):>10} {kpi['target']:>10}   {status}")
     lines.append("=" * len(header) + "=====")
     info = report["informational"]
@@ -62,8 +62,8 @@ def render_summary(report: Mapping[str, Any]) -> str:
     lines.append(f"Informational: outcome accuracy {info['outcome_accuracy']}, HITL pass rate "
                  f"{info['hitl_escalation_pass_rate']}, archetype accuracy {info['archetype_accuracy']}, "
                  f"mean confidence {info['mean_confidence']}, errors {info['errors'] or 'none'}")
-    lines.append(f"Tokens: prompt {tokens['prompt_tokens']:,} · completion {tokens['completion_tokens']:,} · "
-                 f"total {tokens['total_tokens']:,} · wall time {report['wall_time_s']}s")
+    lines.append(f"Tokens: prompt {tokens['prompt_tokens']:,} Â· completion {tokens['completion_tokens']:,} Â· "
+                 f"total {tokens['total_tokens']:,} Â· wall time {report['wall_time_s']}s")
     if report.get("node_latency_ms_mean"):
         lines.append("Mean node latency (ms): " + ", ".join(f"{n} {ms:,.0f}" for n, ms in report["node_latency_ms_mean"].items()))
     if report.get("experiment_name"):
@@ -92,9 +92,9 @@ def render_cases(report: Mapping[str, Any]) -> str:
             f"{s(sc.get('hitl_escalation')):>5} {s(case['elapsed_s']):>6} {str(case['tokens'] or 0):>6}")
         failing = {k: v for k, v in case["comments"].items() if sc.get(k) == 0.0}
         for key, comment in failing.items():
-            lines.append(f"    ↳ {key}: {comment}")
+            lines.append(f"    â†³ {key}: {comment}")
         if case.get("error"):
-            lines.append(f"    ↳ ERROR: {case['error']}")
+            lines.append(f"    â†³ ERROR: {case['error']}")
     return "\n".join(lines)
 
 

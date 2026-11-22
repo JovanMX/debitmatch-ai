@@ -1,6 +1,6 @@
-"""Smoke test: verify the OpenAI LLM configured in config.py / .env is reachable.
+﻿"""Smoke test: verify the OpenAI LLM configured in config.py / .env is reachable.
 
-Run with:  python tests/test_llm_connection.py
+Run with:  python scripts/check_llm_connection.py
 Exit codes: 0 = operational, 1 = configuration problem, 2 = API/connection error.
 """
 
@@ -11,7 +11,7 @@ import sys
 import time
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]  # tests/ sits one level below the project root
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # scripts/ sits one level below the project root
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 

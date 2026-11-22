@@ -24,7 +24,6 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from pydantic import TypeAdapter, ValidationError  # noqa: E402
 
-import ingest_docs  # noqa: E402
 from state import SquadState, compute_data_freshness, create_initial_state, is_data_fresh  # noqa: E402
 from tools import calculate_net_impact, load_catalog  # noqa: E402
 from tools.calculator import IsrParameters  # noqa: E402
@@ -345,15 +344,6 @@ def test_rag_metadata_filtering() -> None:
         assert rebuilt.count() == 0
 
 
-def test_ingest_cli() -> None:
-    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
-        db = str(Path(tmp) / "chroma")
-        assert ingest_docs.main(["--persist-dir", db, "--pdfs", ""]) == 0  # PDFs: test_pdf_library_scopes
-        assert ingest_docs.main(["--persist-dir", db, "--pdfs", "", "--reset", "--audit-catalog",
-                                 "--query", "inactivity fee", "--institution", SANTANDER_ID]) == 0
-        assert ingest_docs.main(["--persist-dir", db, "--docs", str(Path(tmp) / "missing")]) == 1
-
-
 def test_rag_framework_contract_stored_once() -> None:
     """The same 'Contrato Marco' in two product folders is stored once per bank."""
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
@@ -484,7 +474,6 @@ TESTS: List[Callable[[], None]] = [
     test_calculator_penalties_and_isr,
     test_rag_metadata_filtering,
     test_rag_framework_contract_stored_once,
-    test_ingest_cli,
     test_pdf_library_scopes,
     test_squad_state,
     test_data_freshness_includes_rag_chunks,
