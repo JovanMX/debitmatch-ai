@@ -1,0 +1,13 @@
+{
+  "institution_id": "37166",
+  "institution_name": "BaBien",
+  "product_id": "DEB0107",
+  "last_verified_date": "2026-11-01",
+  "documents": [
+    {
+      "file": "framework_contract.txt",
+      "document_type": "terminos_y_condiciones_generales",
+      "applies_to_all_products": true
+    }
+  ]
+}

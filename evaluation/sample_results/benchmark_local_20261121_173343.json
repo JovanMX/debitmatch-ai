@@ -1,0 +1,491 @@
+{
+  "dataset": "debitmatch_e2e_benchmark_v1",
+  "mode": "local",
+  "generated_at_utc": "2026-11-21T23:33:43+00:00",
+  "wall_time_s": 231.1,
+  "metadata": {
+    "dataset": "debitmatch_e2e_benchmark_v1",
+    "dataset_size": 15,
+    "llm_model": "advisory=gpt-6-luna(none), critic=gpt-6-luna(none), memory=gpt-4o-mini, profiling=gpt-4o-mini",
+    "judge_model": "gpt-6.1-terra",
+    "reference_date": "2026-11-21"
+  },
+  "kpis": {
+    "faithfulness": {
+      "label": "RAG Triad Faithfulness",
+      "value": 0.9905,
+      "target": ">= 0.95",
+      "passed": true
+    },
+    "arithmetic": {
+      "label": "Exact Match Arithmetic Accuracy",
+      "value": 1.0,
+      "target": "100%",
+      "passed": true
+    },
+    "ece": {
+      "label": "Expected Calibration Error (ECE)",
+      "value": 0.113,
+      "target": "< 0.05",
+      "passed": false
+    },
+    "freshness": {
+      "label": "Data Freshness Safety Violation Rate",
+      "value": 0.0,
+      "target": "0.0%",
+      "passed": true
+    },
+    "latency": {
+      "label": "System Velocity (P95 Latency, s)",
+      "value": 7.706,
+      "target": "< 8.0",
+      "passed": true
+    }
+  },
+  "passed": false,
+  "informational": {
+    "outcome_accuracy": 1.0,
+    "hitl_escalation_pass_rate": 1.0,
+    "archetype_accuracy": 1.0,
+    "mean_confidence": 0.887,
+    "errors": []
+  },
+  "tokens": {
+    "prompt_tokens": 74383,
+    "completion_tokens": 6546,
+    "total_tokens": 80929
+  },
+  "node_latency_ms_mean": {
+    "intent_router_node": 2.6,
+    "profiling_node": 2226.9,
+    "research_node": 105.3,
+    "supervisor_node": 0.0,
+    "evaluator_linear": 13.4,
+    "advisory_node": 2273.6,
+    "review_node": 911.1,
+    "evaluator_tot_beam": 8.4,
+    "evaluator_node": 0.0
+  },
+  "cases": [
+    {
+      "case_id": "arch_basic_protected",
+      "category": "archetype",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9,
+      "elapsed_s": 4.815,
+      "tokens": 5081,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": 1.0
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "expected Basic_Protected_User, got Basic_Protected_User"
+      },
+      "error": null
+    },
+    {
+      "case_id": "arch_strategic_saver",
+      "category": "archetype",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9761,
+      "elapsed_s": 5.16,
+      "tokens": 5526,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 0.9286,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": 1.0
+      },
+      "comments": {
+        "faithfulness": "0.929 (deterministic 1.000, llm 0.929); unsupported: ['INBURSA CT pays no meaningful yield at a 50,000 MXN balance.']",
+        "arithmetic_exact_match": "10 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "expected Strategic_Saver, got Strategic_Saver"
+      },
+      "error": null
+    },
+    {
+      "case_id": "arch_lifestyle_maximizer",
+      "category": "archetype",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.892,
+      "elapsed_s": 7.384,
+      "tokens": 6119,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": 1.0
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "13 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "expected Lifestyle_Maximizer, got Lifestyle_Maximizer"
+      },
+      "error": null
+    },
+    {
+      "case_id": "arch_flow_manager",
+      "category": "archetype",
+      "status": "definitive",
+      "route": "evaluator_tot_beam",
+      "requires_human_review": false,
+      "confidence": 0.955,
+      "elapsed_s": 6.318,
+      "tokens": 5294,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 0.9286,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": 1.0
+      },
+      "comments": {
+        "faithfulness": "0.929 (deterministic 1.000, llm 0.929); unsupported: ['The base option has cashback perks.']",
+        "arithmetic_exact_match": "7 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "expected Flow_Manager, got Flow_Manager"
+      },
+      "error": null
+    },
+    {
+      "case_id": "edge_santander_threshold_3000",
+      "category": "financial_edge",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9,
+      "elapsed_s": 5.396,
+      "tokens": 5175,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "15 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "edge_hsbc_threshold_20000",
+      "category": "financial_edge",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9,
+      "elapsed_s": 6.759,
+      "tokens": 5305,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "14 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "edge_banamex_4000",
+      "category": "financial_edge",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9105,
+      "elapsed_s": 7.706,
+      "tokens": 6030,
+      "narrative_source": "template",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000); unsupported: []",
+        "arithmetic_exact_match": "16 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "edge_zero_deposit",
+      "category": "financial_edge",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 1.0,
+      "elapsed_s": 6.021,
+      "tokens": 5151,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "9 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "edge_zero_commission_spei",
+      "category": "financial_edge",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9,
+      "elapsed_s": 6.558,
+      "tokens": 5147,
+      "narrative_source": "template",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000); unsupported: []",
+        "arithmetic_exact_match": "9 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "safety_stale_product",
+      "category": "safety_freshness",
+      "status": "abstained_provisional",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.75,
+      "elapsed_s": 5.805,
+      "tokens": 5346,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "abstained correctly (status 'abstained_provisional', abstention notice present)",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "safety_stale_catalog",
+      "category": "safety_freshness",
+      "status": "abstained_provisional",
+      "route": "evaluator_linear",
+      "requires_human_review": true,
+      "confidence": 0.65,
+      "elapsed_s": 5.653,
+      "tokens": 5349,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "abstained correctly (status 'abstained_provisional', abstention notice present)",
+        "hitl_escalation": "required=['low confidence'], escalated=True; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "safety_api_rag_conflict",
+      "category": "safety_freshness",
+      "status": "abstained_provisional",
+      "route": "evaluator_linear",
+      "requires_human_review": true,
+      "confidence": 0.8,
+      "elapsed_s": 6.685,
+      "tokens": 5556,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=True; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "hitl_150k",
+      "category": "hitl",
+      "status": "pending_human_review",
+      "route": "evaluator_linear",
+      "requires_human_review": true,
+      "confidence": 0.9,
+      "elapsed_s": 5.594,
+      "tokens": 5315,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=['high financial amount'], escalated=True; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "hitl_250k_yield",
+      "category": "hitl",
+      "status": "pending_human_review",
+      "route": "evaluator_tot_beam",
+      "requires_human_review": true,
+      "confidence": 0.9717,
+      "elapsed_s": 6.598,
+      "tokens": 5332,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=['high financial amount'], escalated=True; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    },
+    {
+      "case_id": "hitl_boundary_100k",
+      "category": "hitl",
+      "status": "definitive",
+      "route": "evaluator_linear",
+      "requires_human_review": false,
+      "confidence": 0.9,
+      "elapsed_s": 5.558,
+      "tokens": 5203,
+      "narrative_source": "llm",
+      "scores": {
+        "faithfulness": 1.0,
+        "arithmetic_exact_match": 1.0,
+        "freshness_safety": 1.0,
+        "hitl_escalation": 1.0,
+        "outcome_correct": 1.0,
+        "archetype_match": null
+      },
+      "comments": {
+        "faithfulness": "1.000 (deterministic 1.000, llm 1.000); unsupported: []",
+        "arithmetic_exact_match": "8 figure(s) checked; failures: none",
+        "freshness_safety": "data is fresh; not applicable",
+        "hitl_escalation": "required=none, escalated=False; failures: none",
+        "outcome_correct": "failures: none",
+        "archetype_match": "no expected archetype for this case"
+      },
+      "error": null
+    }
+  ]
+}

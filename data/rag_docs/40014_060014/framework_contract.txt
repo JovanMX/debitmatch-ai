@@ -1,0 +1,15 @@
+[SYNTHETIC PLACEHOLDER - NOT THE REAL CONTRACT TEXT. Replace with the official RECA-registered document.]
+
+SANTANDER - FRAMEWORK CONTRACT FOR DEMAND DEPOSIT ACCOUNTS (GENERAL CLAUSES)
+
+Clause 1. Scope. These general clauses apply to every demand deposit and debit account product offered by the Bank, including payroll accounts, unless a product-specific annex states otherwise.
+
+Clause 2. Account inactivity. If the account records no customer-initiated deposits, withdrawals or transfers for twelve consecutive months, the Bank may classify it as inactive and charge an inactivity fee per event as stated in the product fee schedule. After three years without movements, balances below the legal threshold may be transferred to the public welfare beneficiary fund in accordance with applicable regulation.
+
+Clause 3. Interbank transfers. SPEI transfers requested at a branch or teller window are subject to the per-transaction fee published in the product fee schedule. Transfers initiated through the mobile banking app or online banking may carry a different fee or be free of charge.
+
+Clause 4. Fee changes. The Bank will notify the customer at least thirty calendar days in advance of any increase in fees or new charges. The customer may terminate the contract without penalty within the notice period.
+
+Clause 5. Deposit insurance. Deposits are protected by the Instituto para la Protección al Ahorro Bancario (IPAB) up to the legal limit of 400,000 UDIs per person per institution.
+
+Clause 6. Card loss and fraud. The customer must report lost or stolen cards immediately through the 24/7 telephone line or the mobile app. The Bank will not charge the customer for transactions made after the report has been filed.

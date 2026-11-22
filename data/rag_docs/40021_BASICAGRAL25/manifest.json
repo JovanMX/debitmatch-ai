@@ -1,0 +1,18 @@
+{
+  "institution_id": "40021",
+  "institution_name": "HSBC",
+  "product_id": "BASICAGRAL25",
+  "last_verified_date": "2026-11-01",
+  "documents": [
+    {
+      "file": "framework_contract.txt",
+      "document_type": "terminos_y_condiciones_generales",
+      "applies_to_all_products": true
+    },
+    {
+      "file": "insurance_policy.txt",
+      "document_type": "poliza_seguros",
+      "applies_to_all_products": false
+    }
+  ]
+}

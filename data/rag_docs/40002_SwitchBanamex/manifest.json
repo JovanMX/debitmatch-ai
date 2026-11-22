@@ -1,0 +1,18 @@
+{
+  "institution_id": "40002",
+  "institution_name": "BANAMEX",
+  "product_id": "SwitchBanamex",
+  "last_verified_date": "2026-11-01",
+  "documents": [
+    {
+      "file": "framework_contract.txt",
+      "document_type": "terminos_y_condiciones_generales",
+      "applies_to_all_products": true
+    },
+    {
+      "file": "rewards_program_terms.txt",
+      "document_type": "bases_promociones_cashback",
+      "applies_to_all_products": false
+    }
+  ]
+}

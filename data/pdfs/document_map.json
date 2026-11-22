@@ -1,0 +1,297 @@
+{
+  "source": "Matriz Consolidada de ids de productos y documentos no estructurados.docx (by product ID), cross-checked with Relación Consolidada de Productos del Catálogo y Documentación Legal de Respaldo.docx",
+  "documents": [
+    {
+      "file": "Banamex_contrato-cucbe.pdf",
+      "institution_id": "40002",
+      "title": "Contrato Único de Captación y Banca Electrónica CUCBE",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "insurance"],
+      "notes": "Matrix: SwitchBanamex (T&C, RECA 0300-999-038880; also insurance column). Switch is the only Banamex product in the catalog."
+    },
+    {
+      "file": "Banamex_art45_CBASE.pdf",
+      "institution_id": "40002",
+      "title": "Folleto Informativo Cuenta Base Banamex",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": [],
+      "last_verified_date": "2026-11-21",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Benefits document of Banamex Cuenta Base. Cuenta Base is not in the catalog (no precatalog record), so it is indexed for institution-level search only; Switch Banamex's benefits document is Banamex_contrato-switch.pdf."
+    },
+    {
+      "file": "Banamex_contrato-switch.pdf",
+      "institution_id": "40002",
+      "title": "Contrato Cuenta Switch Banamex",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["SwitchBanamex"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-21",
+      "relation_columns": ["promotions_and_cashback", "terms_and_conditions"],
+      "notes": "Switch Banamex's own contract (OR-8-1403, 06/2026); benefits document of Switch. The balance earns no yield (cláusula III.6) and the client is enrolled in Banamex benefit programs; fee amounts are in the Anexo de Comisiones."
+    },
+    {
+      "file": "Banamex_Anexo-de-Comisiones-Switch.pdf",
+      "institution_id": "40002",
+      "title": "Anexo de Comisiones Switch Banamex",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["SwitchBanamex"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Switch Banamex's own fee annex (RECA 0300-999-041908, dated 01-Julio-2026): eligible for figure cross-checks."
+    },
+    {
+      "file": "Banamex_comisiones-micuenta-citibamex-ley-de-transparencia.pdf",
+      "institution_id": "40002",
+      "title": "Tabla de Comisiones de Cuentas de Captación - Banamex",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": [],
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Fee table for Priority / Cheques M.N. / Cheques Dólares / Productiva; it never mentions Switch. Not linked to SwitchBanamex to avoid quoting other products' fees. Indexed for institution-level search only."
+    },
+    {
+      "file": "Santander_contrato-unico-super-cuenta-personas-fisicas-productos-nomina-y-basicos.pdf",
+      "institution_id": "40014",
+      "title": "Contrato Único Súper Cuenta Personas Físicas",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": ["060014", "06001409", "06140925", "3072-1"],
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "insurance"],
+      "notes": "Matrix: 060014, 06140925, 06001409 (RECA 0300-437-003368). 3072-1 kept from the first relation (contract covers nómina and basic products)."
+    },
+    {
+      "file": "Santander_folleto-super-cuenta-debito-likeu-pro.pdf",
+      "institution_id": "40014",
+      "title": "Folleto Súper Cuenta Débito LikeU Pro",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["060014", "06001409", "06140925"],
+      "owner_product": "060014",
+      "last_verified_date": "2026-11-21",
+      "relation_columns": ["promotions_and_cashback", "insurance"],
+      "notes": "LikeU Pro's own leaflet: stored under 060014 so LikeU Pro gets API-vs-document figure checks; LikeU and Cuenta Digital Smart still retrieve it through product_scope without figure checks (its fee clause is titled 'Débito LikeU Pro')."
+    },
+    {
+      "file": "Santander_folleto-basica-nomina.pdf",
+      "institution_id": "40014",
+      "title": "Folleto Súper Cuenta Básica Nómina - Santander",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["3072-1", "060014", "06001409", "06140925"],
+      "owner_product": "3072-1",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "promotions_and_cashback"],
+      "notes": "Own document of 3072-1 (figure cross-checks). Matrix also lists it in the promotions column of 060014, 06140925, 06001409."
+    },
+    {
+      "file": "Sabadell_Caratula_de_Contrato_Multiple_de_Cuentas_Basica.pdf",
+      "institution_id": "40156",
+      "title": "Carátula de Contrato Múltiple de Cuentas Sabadell",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "insurance"],
+      "notes": "Matrix ID 20_102 (CUENTA RELACION) is catalog ID 20. First relation: Cuenta Sabadell, Cuenta Básica and Cuenta Relación (all 3 catalog products)."
+    },
+    {
+      "file": "Invex_contrato_now.pdf",
+      "institution_id": "40059",
+      "title": "Contrato Múltiple de Captación NOW Bank",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "promotions_and_cashback", "insurance"],
+      "notes": "Matrix maps the contract to every INVEX product (NOW - levels NV/NVR 2-4 merged into NW0001 on 2026-11-20 -, Amazon Access, Yaya, INVEX Genera, basic, investment and cheque accounts)."
+    },
+    {
+      "file": "azteca_b92ec4_contrato-de-productos-y-servicios-bancarios-de-operaciones-pasivas.pdf",
+      "institution_id": "40127",
+      "title": "Contrato de Productos Pasivos Banco Azteca",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "promotions_and_cashback", "insurance"],
+      "notes": "Matrix names this PDF for 0007 and 15; the other 7 Azteca products cite 'Contrato Único RECA Pasivo AZTECA' (no file), i.e. the same deposit-operations contract."
+    },
+    {
+      "file": "Cancoppel_Contrato_Captacion.pdf",
+      "institution_id": "40137",
+      "title": "Contrato Único de Captación BanCoppel",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "promotions_and_cashback", "insurance"],
+      "notes": "Matrix: all 6 BanCoppel products."
+    },
+    {
+      "file": "VePorMas_ContratoUnico.pdf",
+      "institution_id": "40113",
+      "title": "Contrato Único RECA Banco Ve por Más",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "insurance"],
+      "notes": "Matrix: BX+_Empresa_PFAE, Cta_Basica_publico_gral, Cuenta_Enlazados, Dinero_vista_PM_PF_PFAE; BX+_Beneficios and Cuenta_Verde cite 'Contrato Único RECA Pasivo VE POR MAS (BX+)' (same contract). All 6 catalog products."
+    },
+    {
+      "file": "VePorMas_comisiones.pdf",
+      "institution_id": "40113",
+      "title": "Anexo de Tarifas y Comisiones BX+",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Matrix: 'Anexo de Tarifas y Comisiones Cuenta Verde' for 4 products; the first relation added BX+_Beneficios and Cuenta_Verde. All 6 catalog products."
+    },
+    {
+      "file": "Contrato_captacion_11_06_2026_reca_ajustado2_12ec39525b.pdf",
+      "institution_id": "40165",
+      "title": "Contrato Múltiple de Productos de Captación bineo",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions", "insurance"],
+      "notes": "Banco bineo (Grupo Financiero Banorte). Matrix: EPC_TA_MA1, EPC_TA_N2 (EPC_TA_MA1_N4 is not in the catalog)."
+    },
+    {
+      "file": "Banregio_assets_naranja_img_Cuenta-Naranja-Flex.pdf",
+      "institution_id": "40058",
+      "title": "Folleto Cuenta Naranja Flex Banregio",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["58154"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-21",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Benefits and fees leaflet of Cuenta Naranja Flex. Undated, fees VAT excluded: minimum average monthly balance MXN 4,000 (MXN 200 penalty), opening MXN 1,000, SPEI internet MXN 5 / branch MXN 75, inactivity MXN 50 after 6 months."
+    },
+    {
+      "file": "Bienestar_COMISIONES_-_DEBICUENTA_SIN_INTERESES.pdf",
+      "institution_id": "37166",
+      "title": "Tabla de Comisiones y Exenciones - Banco del Bienestar",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": "ALL",
+      "last_verified_date": "2026-11-19",
+      "relation_columns": ["terms_and_conditions"],
+      "notes": "Matrix: all 5 BaBien products."
+    },
+    {
+      "file": "BaBien_CUENTAHORRO_-_CONTRATO.pdf",
+      "institution_id": "37166",
+      "title": "Contrato de Depósito Cuenta Ahorro (CUENTAHORRO) - Banco del Bienestar",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["CA0101", "166010", "DEB0101", "DEB0107", "DEB0108"],
+      "owner_product": "CA0101",
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["terms_and_conditions", "promotions_and_cashback"],
+      "notes": "Relation 2026-11-20: CUENTAHORRO promotions AND terms column. Own document of CA0101 (figure cross-checks); terms shared with every BaBien product."
+    },
+    {
+      "file": "Mifel_Contrato-CSPB.pdf",
+      "institution_id": "40042",
+      "title": "Contrato de Productos y Servicios Bancarios Mifel",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["terms_and_conditions"],
+      "notes": "Relation 2026-11-20: Cuenta AD+ Mifel terms (RECA 0318-437-001968), applied to every Mifel product."
+    },
+    {
+      "file": "mifel_folleto-ad-plus-mifel.pdf",
+      "institution_id": "40042",
+      "title": "Folleto Informativo Cuenta AD+ Mifel",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["PFADM"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Relation 2026-11-20: Cuenta AD+ Mifel promotions column (GAT valid 03-30 Nov 2026)."
+    },
+    {
+      "file": "hsbc_contrato_unico_de_personas_fisicas.pdf",
+      "institution_id": "40021",
+      "title": "Contrato Único de Personas Físicas HSBC",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["terms_and_conditions"],
+      "notes": "Relation 2026-11-20: terms of Cuenta Flexible Simple and HSBC One, applied to every HSBC product."
+    },
+    {
+      "file": "HSBC_folleto_informativo.pdf",
+      "institution_id": "40021",
+      "title": "Folleto Informativo Cuenta Flexible Simple HSBC",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["FLEXSIM17"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Relation 2026-11-20: Cuenta Flexible Simple HSBC promotions column."
+    },
+    {
+      "file": "hsbc_folleto_Advance.pdf",
+      "institution_id": "40021",
+      "title": "Folleto Informativo HSBC One",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["ADVANCE27"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Relation 2026-11-20: HSBC One promotions column (file name says Advance; content is HSBC One)."
+    },
+    {
+      "file": "Inbursa_clausulado-global-pf.pdf",
+      "institution_id": "40036",
+      "title": "Contrato Global Persona Física Inbursa",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["terms_and_conditions"],
+      "notes": "Relation 2026-11-20: terms of Cuenta Efe and Cuenta Educa, applied to every Inbursa product."
+    },
+    {
+      "file": "Inbursa_folleto-cuenta-efe.pdf",
+      "institution_id": "40036",
+      "title": "Folleto Cuenta Efe Inbursa",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["1002"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Relation 2026-11-20: Cuenta Efe promotions column (catalog 1002 CUENTA EFE)."
+    },
+    {
+      "file": "inbursa_folleto-cuenta-educa.pdf",
+      "institution_id": "40036",
+      "title": "Folleto Cuenta Educa Inbursa",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["1005"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Relation 2026-11-20: Cuenta Educa promotions column."
+    },
+    {
+      "file": "Invex_ContratoUniversalTDC_INVEX.pdf",
+      "institution_id": "40059",
+      "title": "Contrato Múltiple de Productos en Moneda Nacional INVEX",
+      "document_type": "terminos_y_condiciones_generales",
+      "products": "ALL",
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["terms_and_conditions"],
+      "notes": "Relation 2026-11-20: NOW terms (RECA 0323-999-037741), applied to every INVEX product."
+    },
+    {
+      "file": "Invex_Folleto Cuenta Now octubre2026.pdf",
+      "institution_id": "40059",
+      "title": "Folleto Cuenta Now (octubre 2026)",
+      "document_type": "terminos_y_condiciones_producto",
+      "products": ["NW0001"],
+      "product_specific": true,
+      "last_verified_date": "2026-11-20",
+      "relation_columns": ["promotions_and_cashback"],
+      "notes": "Cuenta Now folleto. Fixed 7.25% annual rate from MXN 50 (GAT nominal 7.52%, valid to December 2026), no account fee or minimum balance, inactivity penalty MXN 70 + VAT; the catalog follows it (document override)."
+    }
+  ]
+}

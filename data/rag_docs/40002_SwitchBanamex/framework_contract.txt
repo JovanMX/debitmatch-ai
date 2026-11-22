@@ -1,0 +1,11 @@
+[SYNTHETIC PLACEHOLDER - NOT THE REAL CONTRACT TEXT. Replace with the official RECA-registered document.]
+
+BANAMEX - FRAMEWORK CONTRACT FOR DEMAND DEPOSIT ACCOUNTS
+
+Clause 1. Scope. This contract applies to all Banamex debit and payroll accounts. Each product has its own fee schedule annex.
+
+Clause 2. Digital opening. Accounts opened through the mobile app require identity validation with an official ID and biometric verification. Account limits may apply until the customer completes identification at a branch.
+
+Clause 3. Transfers. SPEI and same-bank transfers through digital channels are executed in real time during SPEI operating hours.
+
+Clause 4. Deposit insurance. Deposits are protected by IPAB up to 400,000 UDIs per person per institution.

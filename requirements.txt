@@ -1,0 +1,13 @@
+chromadb>=1.0
+pydantic>=2.7
+langchain-openai>=1.0
+langgraph>=1.0
+langsmith>=0.3
+mcp>=2.0  # FastMCP is named MCPServer in mcp 2.x
+numpy>=1.26
+python-dotenv>=1.0
+plotly>=5.24  # bar cornerradius
+streamlit>=1.45  # :color-badge[] markdown, width="stretch", AppTest
+openai>=1.40  # text-embedding-3-small (default embeddings, RAG design section 2)
+tiktoken>=0.7  # 400-token / 50-overlap fixed-size chunking (RAG design section 4)
+pypdf>=5.0  # text extraction of the official RECA PDFs in data/pdfs

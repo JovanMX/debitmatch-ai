@@ -1,0 +1,25 @@
+# Environment & Secrets
+.env
+.env.local
+*.env
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.pytest_cache/
+
+# Local Storage & Vector DB (rebuilt with ingest_docs.py)
+chroma_db/
+.chroma/
+data/review_queue/
+
+# Benchmark runs are regenerated; evaluation/sample_results/ keeps one run as evidence
+evaluation/reports/
+
+# IDEs / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
