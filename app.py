@@ -307,9 +307,21 @@ def profile_provenance(result: Mapping[str, Any], profile: Any) -> List[Dict[str
     return rows
 
 
+_CAPTION_SOURCE_LABELS = {"message": "from your message", "sidebar": "set manually", "agent": "inferred",
+                          "default": "default", "assumed": "assumed", "pending": "not set yet"}
+# Usage assumptions that only price transfer fees; they never filter products.
+_FEE_ONLY_FIELDS = frozenset({"SPEI transfers/month", "SPEI channel"})
+
+
 def provenance_line(rows: Sequence[Mapping[str, str]]) -> str:
-    """Compact chat caption: value + origin icon for every profile input of the run."""
-    return " · ".join(f"{r['field']} {r['value']} {SOURCE_ICONS.get(r['source'], '')}".strip() for r in rows)
+    """Compact chat caption: value + origin in words for every profile input of the run."""
+    def origin(row: Mapping[str, str]) -> str:
+        label = _CAPTION_SOURCE_LABELS.get(row["source"], row["source"])
+        if row["source"] == "default" and row["field"] in _FEE_ONLY_FIELDS:
+            label += ", fee calculation only"
+        return label
+
+    return " · ".join(f"{r['field']} {r['value']} ({origin(r)})" for r in rows)
 
 
 def result_widget_values(result: Mapping[str, Any]) -> Dict[str, Any]:
@@ -1017,9 +1029,7 @@ def render_conversation(memory: Optional[ConversationMemory]) -> None:
             if turn.changes:
                 st.caption("Profile updated: " + "; ".join(turn.changes))
             if turn.profile_used:
-                st.caption("Profile used: " + turn.profile_used + "  ·  "
-                           + " ".join(f"{SOURCE_ICONS[s]} {SOURCE_LABELS[s]}"
-                                      for s in ("message", "sidebar", "agent", "default")))
+                st.caption("Profile used: " + turn.profile_used)
     if memory.awaiting == "deposit_mxn":
         deposit = st.session_state.get("deposit_amount_mxn")
         c1, c2, _ = st.columns([2.2, 1.6, 3])
